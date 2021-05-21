@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class EndpointsData {
   EndpointsData({@required this.values});
-  final Map<Endpoint, int> values;
+  final Map<Endpoint, EndpointsData> values;
   int get cases => values[Endpoint.cases];
   int get casesSuspected => values[Endpoint.casesSuspected];
   int get casesConfirmed => values[Endpoint.casesConfirmed];
