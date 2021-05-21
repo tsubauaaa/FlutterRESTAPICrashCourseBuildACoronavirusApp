@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coronavirus_rest_api/app/repositories/endpoints_data.dart';
 import 'package:coronavirus_rest_api/app/services/endpoint_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
