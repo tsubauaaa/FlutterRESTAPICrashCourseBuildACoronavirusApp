@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:coronavirus_rest_api/app/repositories/data_repository.dart';
 import 'package:coronavirus_rest_api/app/repositories/endpoints_data.dart';
 import 'package:coronavirus_rest_api/app/services/api.dart';
 import 'package:coronavirus_rest_api/app/ui/endpoint_card.dart';
 import 'package:coronavirus_rest_api/app/ui/last_update_status_text.dart';
+import 'package:coronavirus_rest_api/app/ui/show_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +26,26 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Future<void> _updateData() async {
-    final dataRepository = Provider.of<DataRepository>(context, listen: false);
-    final endpointsData = await dataRepository.getAllEndpointData();
-    setState(() => _endpointsData = endpointsData);
+    try {
+      final dataRepository =
+          Provider.of<DataRepository>(context, listen: false);
+      final endpointsData = await dataRepository.getAllEndpointData();
+      setState(() => _endpointsData = endpointsData);
+    } on SocketException catch (_) {
+      showAlertDialog(
+        context: context,
+        title: 'Connection Error',
+        content: 'Could not retrieve data, please try again later.',
+        defaultActionText: 'OK',
+      );
+    } catch (_) {
+      showAlertDialog(
+        context: context,
+        title: 'Unknown Error',
+        content: 'Please contact support or try again later.',
+        defaultActionText: 'OK',
+      );
+    }
   }
 
   @override
